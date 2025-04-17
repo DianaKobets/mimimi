@@ -1,5 +1,5 @@
 import { Layer, Stage, Rect, Line } from "react-konva";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../firebase" 
 import { ref, onValue, set } from 'firebase/database';
 
@@ -37,48 +37,61 @@ export const DrawingCanvas = () => {
             const data = snapshot.val();
             if (data) setLines(data);
         });
-    }, []);
+
+        const handleBeforeUnload = () => {
+            const linesRef = ref(db, 'drawings');
+            set(linesRef, lines);
+          };
+          
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+      }, [lines])
 
     const saveLinesToFirebase = (newLine: LineType) => {
         const linesRef = ref(db, 'lines');
         set(linesRef, [...lines, newLine]);
     }
 
+    const adaptiveWidth = window.innerWidth*0.7;
+    const adaptiveHeight = window.innerHeight*0.6;
+
     return (
-        <div>
+        <div className="drawing-canvas">
             <input
                 type="color"
                 value={color}
                 onChange={e => setColor(e.target.value)}
             />
-            <Stage
-                width={800}
-                height={600}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                >
-                <Layer>
-                    <Rect width={800} height={600} fill="#FFFFE0" />
-                    {lines.map((line, i) => (
+            <div className="canvas">
+                <Stage
+                    width={adaptiveWidth}
+                    height={adaptiveHeight}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    >
+                    <Layer>
+                        <Rect width={adaptiveWidth} height={adaptiveHeight} fill="#FFFFE0" className="stage"/>
+                        {lines.map((line, i) => (
+                            <Line
+                                key={i}
+                                points={line.points}
+                                stroke={line.color}
+                                strokeWidth={3}
+                                tension={0.7}
+                                lineCap="round"
+                            />
+                        ))}
+                        {currentLine.length > 0 && 
                         <Line
-                            key={i}
-                            points={line.points}
-                            stroke={line.color}
+                            points={currentLine}
+                            stroke={color}
                             strokeWidth={3}
-                            tension={0.7}
                             lineCap="round"
-                        />
-                    ))}
-                    {currentLine.length > 0 && 
-                    <Line
-                        points={currentLine}
-                        stroke={color}
-                        strokeWidth={3}
-                        lineCap="round"
-                    />}
-                </Layer>
-            </Stage>
+                        />}
+                    </Layer>
+                </Stage>
+            </div>
         </div>
     );
 }

@@ -1,0 +1,113 @@
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.1); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+.heart {
+  display: flex;          
+  justify-content: center; 
+  align-items: center;     
+  height: 100vh;
+  width: 100vw;
+}
+
+.heart img {
+  animation: pulse 2.5s infinite ease-in-out;
+  max-width: 80%;          
+  height: auto;            
+}
+
+.intro{
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  justify-content: center; 
+  align-items: center; 
+}
+
+.intro-block{
+  width: 60vw;
+  height:fit-content;
+  text-align: center;
+  background: linear-gradient(120deg, #E981BF 33%, #FFCB45 58%, #FFE666 90%, #FCFCB2 100%);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: inset 0px 2px 12px  #ffffff,
+  inset -1px -3px 12px  #ffffff,
+  0 0 20px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+.intro-block p{
+  font-size: 3em;
+  text-shadow: 0 0 12px #D72991;
+}
+
+.intro-block span{
+  color: #D72991;
+}
+
+button{
+  padding: 15px 25px;
+  margin: 2rem;
+  border-radius: 25px;
+  border: none;
+  font-family: 'Lepka';
+  line-height: 1.5;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #FFE666;
+  text-shadow: 0 0 12px #D72991;
+  box-shadow: inset 1px 3px 3px  #FFCB45,
+              inset -2px -2px 5px  #ffffff,
+              0 2px 20px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+button:hover{
+  transform: scale(1.05);
+}
+
+.drawing-canvas{
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  justify-content: center; 
+  align-items: center;
+  margin: 10% 0; 
+}
+
+.canvas{
+  background-color: #FFCB45;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: inset 1px 1px 5px  #ffffff,
+  inset -2px -2px 5px  #ffffff,
+  0 2px 20px 5px rgba(0, 0, 0, 0.1);
+}
+
+input{
+  border-radius: 15px;
+  padding: 10px;
+  width: 3rem;
+  height: 3rem;
+  margin: 15px;
+  background-color: #FFCB45;
+  border: none;
+  box-shadow: inset 1px 3px 3px  #FFCB45,
+              inset -2px -2px 5px  #ffffff,
+              0 2px 20px 5px rgba(0, 0, 0, 0.1);
+}
