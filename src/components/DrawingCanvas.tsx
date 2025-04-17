@@ -32,7 +32,7 @@ export const DrawingCanvas = () => {
       };
 
     useEffect(() =>{
-        const linesRef = ref(db, 'lines');
+        const linesRef = ref(db, 'drawings');
         onValue(linesRef, (snapshot) => {
             const data = snapshot.val();
             if (data) setLines(data);
@@ -42,7 +42,7 @@ export const DrawingCanvas = () => {
             const linesRef = ref(db, 'drawings');
             set(linesRef, lines);
           };
-          
+
         window.addEventListener('beforeunload', handleBeforeUnload);
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
       }, [lines])
